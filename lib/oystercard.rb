@@ -10,7 +10,11 @@ class Oystercard
 
     def top_up(value)
         fail "Your oystercard has reached its limit of £#{CARD_LIMIT}" if limit?
-        @balance = @balance + value
+        @balance += value
+    end
+
+    def deduct(value)
+        @balance -= value
     end
 
     private

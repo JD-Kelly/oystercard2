@@ -30,4 +30,14 @@ describe Oystercard do
         end
     end
 
+    # In order to pay for my journey
+    # As a customer
+    # I need my fare deducted from my card
+    describe '#deduct' do
+        it 'reduces the balance on the oystercard when the card is used' do
+            subject.top_up(10)
+            expect { subject.deduct(10) }.to change { subject.balance }.by -10
+        end
+    end
+
 end
