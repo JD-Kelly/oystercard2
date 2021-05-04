@@ -10,10 +10,10 @@ describe Oystercard do
         expect(oystercard.balance).to eq(0)
     end
 
+    describe '#top_up' do
     # In order to keep using public transport
     # As a customer
     # I want to add money to my card
-    describe '#top_up' do
         it { is_expected.to respond_to(:top_up).with(1).argument }
 
         it 'tops up an oystercard with the value provided' do
@@ -30,10 +30,10 @@ describe Oystercard do
         end
     end
 
+    describe '#deduct' do
     # In order to pay for my journey
     # As a customer
     # I need my fare deducted from my card
-    describe '#deduct' do
         it 'reduces the balance on the oystercard when the card is used' do
             subject.top_up(10)
             expect { subject.deduct(10) }.to change { subject.balance }.by -10
