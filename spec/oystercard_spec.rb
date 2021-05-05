@@ -11,6 +11,10 @@ describe Oystercard do
         expect(oystercard.balance).to eq(0)
     end
 
+    it 'creates a oystercard with and empty journey history' do
+        expect(subject.journeys).to be_empty
+    end
+
     describe '#top_up' do
     # In order to keep using public transport
     # As a customer
@@ -73,7 +77,7 @@ describe Oystercard do
         it 'changes the state of the oystercard to NOT in use when touched out' do
             subject.top_up(10)
             subject.touch_in(station)
-            subject.touch_out
+            subject.touch_out(station)
             expect(subject).not_to be_in_journey
         end
 
@@ -81,14 +85,23 @@ describe Oystercard do
             min_fare = Oystercard::MIN_FARE
             subject.top_up(10)
             subject.touch_in(station)
-            expect { subject.touch_out }.to change { subject.balance }.by -min_fare
+            expect { subject.touch_out(station) }.to change { subject.balance }.by -min_fare
         end
 
         it 'forgets station on touch_out' do 
             subject.top_up(10)
             subject.touch_in(station)
-            subject.touch_out
+            subject.touch_out(station)
             expect(subject.station).to eq nil
+        end
+    end
+
+    describe '#journey_history' do
+        it 'returns the history of journeys travelled after touch_out' do
+            subject.top_up(10)
+            subject.touch_in(station)
+            subject.touch_out(station)
+            expect(subject.journeys).to eq([{entry: station, exit: station}])
         end
     end
 end

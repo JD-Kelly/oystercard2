@@ -6,10 +6,12 @@ class Oystercard
 
     attr_reader :balance
     attr_reader :station
+    attr_reader :journeys
 
     def initialize
         @balance = 0
         @station = nil
+        @journeys = []
     end
 
     def top_up(value)
@@ -22,7 +24,8 @@ class Oystercard
         @station = station
     end
 
-    def touch_out
+    def touch_out(station)
+        record_journey
         @station = nil
         deduct(MIN_FARE)
     end
@@ -31,6 +34,10 @@ class Oystercard
         !!station
     end
 
+    def record_journey
+        @journeys << { entry: @station, exit: station }
+    end
+    
     private
 
     def limit?
