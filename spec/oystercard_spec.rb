@@ -55,6 +55,7 @@ describe Oystercard do
     # As a customer
     # I need to touch in and out.
         it 'changes the state of the oystercard to NOT in use when touched out' do
+            subject.touch_in
             subject.touch_out
             expect(subject).not_to be_in_journey
         end
