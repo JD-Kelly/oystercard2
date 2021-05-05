@@ -39,5 +39,25 @@ describe Oystercard do
             expect { subject.deduct(10) }.to change { subject.balance }.by -10
         end
     end
+    
+    describe '#touch_in' do
+    # In order to get through the barriers.
+    # As a customer
+    # I need to touch in and out.
+        it 'changes the state of the oystercard to in use when touched in' do
+            subject.touch_in
+            expect(subject).to be_in_journey
+        end
+    end
 
+    describe '#touch_out' do
+    # In order to get through the barriers.
+    # As a customer
+    # I need to touch in and out.
+        it 'changes the state of the oystercard to NOT in use when touched out' do
+            subject.touch_out
+            expect(subject).not_to be_in_journey
+        end
+    end
+    
 end
