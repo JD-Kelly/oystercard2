@@ -36,7 +36,7 @@ describe Oystercard do
     # I need my fare deducted from my card
         it 'reduces the balance on the oystercard when the card is used' do
             subject.top_up(10)
-            expect { subject.deduct(10) }.to change { subject.balance }.by -10
+            expect { subject.send(:deduct, 10) }.to change { subject.balance }.by -10
         end
     end
     
@@ -50,6 +50,9 @@ describe Oystercard do
             expect(subject).to be_in_journey
         end
 
+    # In order to pay for my journey
+    # As a customer
+    # I need to have the minimum amount (£1) for a single journey.
         it 'raises an error when the balance reaches £1' do
             expect { subject.touch_in }.to raise_error("Your oystercard has insufficient funds")
         end
@@ -65,6 +68,13 @@ describe Oystercard do
             subject.touch_in
             subject.touch_out
             expect(subject).not_to be_in_journey
+        end
+
+        it 'reduces the balance on the oystercard by MIN_FARE when the card is touch_out' do
+            min_fare = Oystercard::MIN_FARE
+            subject.top_up(10)
+            subject.touch_in
+            expect { subject.touch_out }.to change { subject.balance }.by -min_fare
         end
     end
 
