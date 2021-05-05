@@ -24,7 +24,7 @@ describe Oystercard do
     # As a customer
     # I want a maximum limit (of £90) on my card
         it 'raises an error when the balance reaches £90' do
-            maximum_balance = Oystercard::CARD_LIMIT
+            maximum_balance = Oystercard::MAX_LIMIT
             subject.top_up(90)
             expect {subject.top_up(1) }.to raise_error("Your oystercard has reached its limit of £#{maximum_balance}")
         end
@@ -45,9 +45,15 @@ describe Oystercard do
     # As a customer
     # I need to touch in and out.
         it 'changes the state of the oystercard to in use when touched in' do
+            subject.top_up(10)
             subject.touch_in
             expect(subject).to be_in_journey
         end
+
+        it 'raises an error when the balance reaches £1' do
+            expect { subject.touch_in }.to raise_error("Your oystercard has insufficient funds")
+        end
+        
     end
 
     describe '#touch_out' do
@@ -55,10 +61,11 @@ describe Oystercard do
     # As a customer
     # I need to touch in and out.
         it 'changes the state of the oystercard to NOT in use when touched out' do
+            subject.top_up(10)
             subject.touch_in
             subject.touch_out
             expect(subject).not_to be_in_journey
         end
     end
-    
+
 end
