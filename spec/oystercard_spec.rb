@@ -61,14 +61,7 @@ describe Oystercard do
     # I need to have the minimum amount (£1) for a single journey.
         it 'raises an error when the balance reaches £1' do
             expect { subject.touch_in(entry_station) }.to raise_error("Your oystercard has insufficient funds")
-        end
-
-        it 'remembers station after touch_in' do 
-            subject.top_up(10)
-            subject.touch_in(entry_station)
-            expect(subject.entry_station).to eq entry_station
-        end
-        
+        end  
     end
 
     describe '#touch_out' do
@@ -87,13 +80,6 @@ describe Oystercard do
             subject.top_up(10)
             subject.touch_in(entry_station)
             expect { subject.touch_out(exit_station) }.to change { subject.balance }.by -min_fare
-        end
-
-        it 'forgets station on touch_out' do 
-            subject.top_up(10)
-            subject.touch_in(entry_station)
-            subject.touch_out(exit_station)
-            expect(subject.entry_station).to eq nil
         end
     end
 
