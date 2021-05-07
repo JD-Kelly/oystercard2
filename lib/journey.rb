@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Journey
   PENALTY_FARE = 6
   MINIMUM_FARE = 1
@@ -7,14 +9,12 @@ class Journey
     @entry_station = entry_station
   end
 
-  def complete?
-
-  end
+  def complete?; end
 
   def fare
-    if @entry_station != nil && @exit_station
+    if !@entry_station.nil? && @exit_station
       MINIMUM_FARE
-    else 
+    else
       PENALTY_FARE
     end
   end
